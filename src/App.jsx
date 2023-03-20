@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import Form from './components/Form';
-import TodoList from './components/TodoList';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { addTask } from './redux';
+import Form from './pages/Form';
+import TodoList from './pages/TodoList';
+
 import './App.css';
 
 function App() {
-  const [inputText, setInputText] = useState('');
-  const [todos, setTodos] = useState([]);
-  const [status, setStatus] = useState('All');
-  const [filteredTodos, setFilteredTodos] = useState([]);
+  const dispatch = useDispatch();
+  const { todos, status } = useSelector((state) => state.addTodo);
+  const [filteredTodos, setFilteredTodos] = useState(todos);
 
   useEffect(() => {
     getLocalTodos();
@@ -36,7 +39,7 @@ function App() {
       localStorage.setItem('todos', JSON.stringify([]));
     } else {
       let todoLocal = JSON.parse(localStorage.getItem('todos'));
-      setTodos(todoLocal);
+      dispatch(addTask(todoLocal));
     }
   };
 
@@ -49,14 +52,8 @@ function App() {
       <header>
         <h1>Todo App </h1>
       </header>
-      <Form
-        todos={todos}
-        setTodos={setTodos}
-        inputText={inputText}
-        setInputText={setInputText}
-        setStatus={setStatus}
-      />
-      <TodoList status={status} todos={todos} setTodos={setTodos} filteredTodos={filteredTodos} />
+      <Form />
+      <TodoList filteredTodos={filteredTodos} />
     </div>
   );
 }

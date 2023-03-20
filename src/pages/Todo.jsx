@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from '../components/Button';
+
+import { addTask } from '../redux';
+import { useDispatch } from 'react-redux';
 
 function Todo(props) {
-  const { text, todo, todos, setTodos } = props;
+  const { text, todo, todos } = props;
+  const dispatch = useDispatch();
 
   const deleteHandler = () => {
     const filterTodo = todos.filter((el) => el.id !== todo.id);
-    setTodos(filterTodo);
+    dispatch(addTask(filterTodo));
   };
 
   const completeHandler = () => {
@@ -19,19 +24,18 @@ function Todo(props) {
       }
       return item;
     });
-
-    setTodos(newTodo);
+    dispatch(addTask(newTodo));
   };
 
   return (
     <div className="todo">
       <li className={`todo-item ${todo.completed ? 'completed' : ''}`}>{text}</li>
-      <button onClick={completeHandler} className="complete-btn">
+      <Button onClick={completeHandler} className="complete-btn">
         <i className="fas fa-check"></i>
-      </button>
-      <button onClick={deleteHandler} className="trash-btn">
+      </Button>
+      <Button onClick={deleteHandler} className="trash-btn">
         <i className="fas fa-trash"></i>
-      </button>
+      </Button>
     </div>
   );
 }
@@ -47,6 +51,5 @@ Todo.propTypes = {
       text: PropTypes.string.isRequired
     })
   ).isRequired,
-  todo: PropTypes.object.isRequired,
-  setTodos: PropTypes.func.isRequired
+  todo: PropTypes.object.isRequired
 };
