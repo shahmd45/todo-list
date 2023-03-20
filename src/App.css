@@ -56,16 +56,18 @@ form button {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    margin-top: 2rem;
+}
+
+.todo-container h4 {
+    margin: 1rem auto;
+    font-size: 1.25rem;
 }
 
 .todo-list {
     min-width: 30%;
     list-style: none;
-}
-
-.todo-list h4 {
-    margin: 1rem auto;
-    font-size: 1.25rem;
 }
 
 .todo {
@@ -154,4 +156,16 @@ select {
     pointer-events: none;
     font-size: 24px;
     padding: 1rem;
+}
+
+.input-fields {
+    position: relative;
+}
+
+.error {
+    color: var(--color-secondary);
+    position: absolute;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 600;
 }

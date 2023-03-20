@@ -1,37 +1,32 @@
-import React, { useState, useEffect } from "react";
-// Importing Components
-import Form from './components/Form'
-import TodoList from './components/TodoList'
+import React, { useState, useEffect } from 'react';
+import Form from './components/Form';
+import TodoList from './components/TodoList';
 import './App.css';
 
 function App() {
-
-  // State
-  const [inputText, setInputText] = useState(""); // hooks
+  const [inputText, setInputText] = useState('');
   const [todos, setTodos] = useState([]);
-  const [status, setStatus] = useState('all');
+  const [status, setStatus] = useState('All');
   const [filteredTodos, setFilteredTodos] = useState([]);
-
 
   useEffect(() => {
     getLocalTodos();
   }, []);
 
-
   useEffect(() => {
     const filterHandler = () => {
       switch (status) {
-        case 'completed':
-          setFilteredTodos(todos.filter(todo => todo.completed === true))
+        case 'Completed':
+          setFilteredTodos(todos.filter((todo) => todo.completed === true));
           break;
-        case 'uncompleted':
-          setFilteredTodos(todos.filter(todo => todo.completed === false))
+        case 'Incomplete':
+          setFilteredTodos(todos.filter((todo) => todo.completed === false));
           break;
         default:
           setFilteredTodos(todos);
           break;
       }
-    }
+    };
     filterHandler();
     saveToLocal();
   }, [todos, status]);
@@ -43,16 +38,16 @@ function App() {
       let todoLocal = JSON.parse(localStorage.getItem('todos'));
       setTodos(todoLocal);
     }
-  }
+  };
 
   const saveToLocal = () => {
     localStorage.setItem('todos', JSON.stringify(todos));
-  }
+  };
 
   return (
     <div className="App">
       <header>
-        <h1>Todo's App </h1>
+        <h1>Todo App </h1>
       </header>
       <Form
         todos={todos}
@@ -60,13 +55,8 @@ function App() {
         inputText={inputText}
         setInputText={setInputText}
         setStatus={setStatus}
-
       />
-      <TodoList
-        todos={todos}
-        setTodos={setTodos}
-        filteredTodos={filteredTodos}
-      />
+      <TodoList status={status} todos={todos} setTodos={setTodos} filteredTodos={filteredTodos} />
     </div>
   );
 }
